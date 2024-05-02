@@ -57,7 +57,7 @@ export default function Form({
           action={(formData) => handleAction(formData, participant)}
           className="flex gap-1 w-full items-center"
         >
-          <Entry key={participant} action={action} participant={participant} />
+          <Entry key={participant} participant={participant} />
         </form>
       ))}
 
@@ -66,7 +66,7 @@ export default function Form({
         action={handleAction}
         className="flex gap-1 w-full items-center"
       >
-        <Entry action={action} participant={PLACEHOLDER} />
+        <Entry participant={PLACEHOLDER} autoFocus />
       </form>
     </div>
   );
@@ -74,10 +74,10 @@ export default function Form({
 
 function Entry({
   participant,
-  action,
+  autoFocus = false,
 }: {
   participant: string;
-  action: Action;
+  autoFocus?: boolean;
 }) {
   const [focused, setFocused] = useState<boolean>(false);
 
@@ -102,6 +102,7 @@ function Entry({
         defaultValue={isNew ? undefined : participant}
         className={`${faded} focus-visible:opacity-100`}
         data-1p-ignore
+        autoFocus={autoFocus}
       />
 
       {!isNew && (
