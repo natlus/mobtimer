@@ -9,12 +9,13 @@ import Form from "./form";
 import { revalidatePath } from "next/cache";
 
 export default async function Home({ params }: { params: { id: string } }) {
-  const mob = await getMob(params.id);
-  const participants = mob.participants?.split(",") ?? [];
+  const { participants } = await getMob(params.id);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="h-5">{mob.participants}</div>
+    <main className="grid grid-rows-[50px_auto] justify-center items-center mx-auto gap-5 p-5 pt-20">
+      <div className="text-center text-xl">
+        {participants.length ? participants.join(", ") : "Type a name to get started"}
+      </div>
 
       <Form
         participants={participants}

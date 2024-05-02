@@ -24,7 +24,10 @@ export async function getMob(id: string) {
 
   if (!mob) redirect("/");
 
-  return mob;
+  return {
+    ...mob,
+    participants: mob.participants?.split(",").filter(Boolean) ?? [],
+  };
 }
 
 export async function createMob() {

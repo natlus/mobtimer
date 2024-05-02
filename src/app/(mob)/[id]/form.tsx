@@ -50,7 +50,7 @@ export default function Form({
   };
 
   return (
-    <div className="flex flex-col gap-5 relative max-w-[300px] w-full">
+    <div className="flex flex-col gap-5 relative w-[300px]">
       {optimistic?.map((participant) => (
         <form
           key={participant}
