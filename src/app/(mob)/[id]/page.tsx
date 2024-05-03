@@ -11,7 +11,7 @@ import { Timer } from "@/components/timer";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-export default async function Home({ params }: { params: { id: string } }) {
+export default async function MobPage({ params }: { params: { id: string } }) {
   const { participants } = await getMob(params.id);
 
   return (
