@@ -5,7 +5,9 @@ export function NotificationsProvider({
 }: {
   children: React.ReactNode;
 }) {
-  Notification.requestPermission().then((result) => {});
+  if (typeof Notification !== "undefined") {
+    Notification.requestPermission().then((result) => {});
+  }
 
   return <>{children}</>;
 }

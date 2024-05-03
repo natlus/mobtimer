@@ -63,7 +63,9 @@ export function Timer({ participants }: Props) {
       setTimer(presetTime * 60);
       setActiveParticipant(getNextParticipant(1));
 
-      new Notification(`Time's up! ${getNextParticipant(1)} is up next!`);
+      if (typeof Notification !== "undefined") {
+        new Notification(`Time's up! ${getNextParticipant(1)} is up next!`);
+      }
     }
   }, [timer]);
 
