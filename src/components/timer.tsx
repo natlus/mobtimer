@@ -21,13 +21,14 @@ type Timer = {
   time: number;
 };
 
-export const activeParticipantAtom = atom<string | null>(null);
-
 const presetTimes = [10, 15, 20, 30, 60] as const;
 const defaultTime = 15;
 
+export const activeParticipantAtom = atom<string | null>(null);
+export const timerAtom = atom(defaultTime * 60);
+
 export function Timer({ participants }: Props) {
-  const [timer, setTimer] = useState(defaultTime * 60);
+  const [timer, setTimer] = useAtom(timerAtom);
   const [activeParticipant, setActiveParticipant] = useAtom(
     activeParticipantAtom
   );
@@ -144,7 +145,7 @@ export function Timer({ participants }: Props) {
   );
 }
 
-function readableTime(s: number) {
+export function readableTime(s: number) {
   const mins = Math.floor(s / 60);
   const secs = s % 60;
   return `${mins || ""}:${secs < 10 ? "0" : ""}${secs}`;

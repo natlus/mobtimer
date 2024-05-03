@@ -1,6 +1,10 @@
 "use client";
 
-import { activeParticipantAtom } from "@/components/timer";
+import {
+  activeParticipantAtom,
+  readableTime,
+  timerAtom,
+} from "@/components/timer";
 import { Input } from "@/components/ui/input";
 import { useAtom } from "jotai";
 import { Trash2 as Trash, CirclePlus, CircleCheck } from "lucide-react";
@@ -83,6 +87,7 @@ function Entry({
 }) {
   const [focused, setFocused] = useState<boolean>(false);
   const [activeParticipant] = useAtom(activeParticipantAtom);
+  const [timer] = useAtom(timerAtom);
 
   const isNew = participant === PLACEHOLDER;
   const faded = !isNew ? "opacity-75" : "opacity-100";
@@ -96,6 +101,8 @@ function Entry({
 
   return (
     <>
+      <title>{activeParticipant + " - " + readableTime(timer)}</title>
+
       <Input
         id="inputtest"
         tabIndex={1}
