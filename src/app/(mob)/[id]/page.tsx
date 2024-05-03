@@ -7,6 +7,7 @@ import {
 } from "@/server/queries";
 import Form from "./form";
 import { revalidatePath } from "next/cache";
+import { Timer } from "@/components/timer";
 
 export default async function Home({ params }: { params: { id: string } }) {
   const { participants } = await getMob(params.id);
@@ -14,7 +15,9 @@ export default async function Home({ params }: { params: { id: string } }) {
   return (
     <main className="grid grid-rows-[50px_auto] justify-center items-center mx-auto gap-5 p-5 pt-20">
       <div className="text-center text-xl">
-        {participants.length ? participants.join(", ") : "Type a name to get started"}
+        {participants.length
+          ? participants.join(", ")
+          : "Type a name to get started"}
       </div>
 
       <Form
@@ -43,6 +46,8 @@ export default async function Home({ params }: { params: { id: string } }) {
           revalidatePath(`/${params.id}`);
         }}
       />
+
+      <Timer participants={participants} />
     </main>
   );
 }

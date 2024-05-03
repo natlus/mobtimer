@@ -1,6 +1,8 @@
 "use client";
 
+import { activeParticipantAtom } from "@/components/timer";
 import { Input } from "@/components/ui/input";
+import { useAtom } from "jotai";
 import { Trash2 as Trash, CirclePlus, CircleCheck } from "lucide-react";
 
 import { useOptimistic, useRef, useState } from "react";
@@ -50,7 +52,7 @@ export default function Form({
   };
 
   return (
-    <div className="flex flex-col gap-5 relative w-[300px]">
+    <div className="flex flex-col gap-5 relative">
       {optimistic?.map((participant) => (
         <form
           key={participant}
@@ -80,9 +82,12 @@ function Entry({
   autoFocus?: boolean;
 }) {
   const [focused, setFocused] = useState<boolean>(false);
+  const [activeParticipant] = useAtom(activeParticipantAtom);
 
   const isNew = participant === PLACEHOLDER;
   const faded = !isNew ? "opacity-75" : "opacity-100";
+  const active =
+    activeParticipant === participant ? "opacity-100 bg-slate-800" : "";
 
   const preventFocus = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -100,7 +105,7 @@ function Entry({
         onBlur={() => setFocused(false)}
         placeholder="Add participant"
         defaultValue={isNew ? undefined : participant}
-        className={`${faded} focus-visible:opacity-100`}
+        className={`${faded} ${active} focus-visible:opacity-100`}
         data-1p-ignore
         autoFocus={autoFocus}
       />
