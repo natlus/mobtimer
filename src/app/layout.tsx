@@ -8,7 +8,7 @@ import { Sidebar } from "./previous-mobs";
 const font = GeistSans;
 
 export const metadata: Metadata = {
-  title: "mobtimer wip",
+  title: "mobtimer",
 };
 
 export default function RootLayout({
