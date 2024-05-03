@@ -10,12 +10,13 @@ import { revalidatePath } from "next/cache";
 import { Timer } from "@/components/timer";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { StorageProvider } from "./storage";
 
 export default async function MobPage({ params }: { params: { id: string } }) {
   const { participants } = await getMob(params.id);
 
   return (
-    <>
+    <StorageProvider>
       <header className="fixed left-0 top-0 p-4">
         <Link href="/">
           <ArrowLeft />
@@ -60,6 +61,6 @@ export default async function MobPage({ params }: { params: { id: string } }) {
           <Timer participants={participants} />
         </div>
       </main>
-    </>
+    </StorageProvider>
   );
 }

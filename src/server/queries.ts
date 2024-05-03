@@ -30,6 +30,19 @@ export async function getMob(id: string) {
   };
 }
 
+export async function getMobs(ids: string[]) {
+  const mobs = await db.query.mobs.findMany({
+    where: (model, { inArray }) => inArray(model.id, ids),
+  });
+
+  if (!mobs) redirect("/");
+
+  return mobs.map((mob) => ({
+    ...mob,
+    participants: mob.participants?.split(",").filter(Boolean) ?? [],
+  }));
+}
+
 export async function createMob() {
   const mob = await db
     .insert(mobs)
