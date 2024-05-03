@@ -5,7 +5,9 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <form action={createMobSession}>
-        <Button type="submit">Create new mob session</Button>
+        <Button variant="outline" type="submit" size="lg" className="text-lg">
+          Create new mob session
+        </Button>
       </form>
     </main>
   );

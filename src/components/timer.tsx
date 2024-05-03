@@ -81,18 +81,19 @@ export function Timer({ participants }: Props) {
   }
 
   const iconProps = {
-    size: 48,
-    strokeWidth: 1,
+    size: 24,
   };
 
   const itemStyle =
-    "bg-slate-950 py-2 px-4 text-white hover:bg-slate-900 flex items-center justify-center";
+    "bg-slate-950 p-4 text-white hover:bg-slate-900 flex items-center justify-center";
+
+  if (!participants.length) return null;
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="grid grid-cols-5 [&>*:first-child]:rounded-l [&>*:last-child]:rounded-r">
+    <div className="flex flex-col items-center justify-center w-full">
+      <div className="grid grid-cols-[100px_1fr_1fr_1fr_1fr] [&>*:first-child]:rounded-l [&>*:last-child]:rounded-r w-full">
         <div
-          className={`${itemStyle} flex items-center text-xl hover:bg-slate-950 text-left justify-start w-[100px]`}
+          className={`${itemStyle} flex items-center text-xl hover:bg-slate-950 text-left justify-start`}
         >
           {readableTime(timer)}
         </div>

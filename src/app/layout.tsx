@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
@@ -16,7 +15,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={font.className}>{children}</body>
+      <body className={font.className}>
+        <div className="grid grid-cols-3 max-w-full pt-20 px-10 gap-10 justify-center">
+          <div></div>
+          <div className="p-5 flex justify-center">{children}</div>
+          <div></div>
+        </div>
+      </body>
     </html>
   );
 }
