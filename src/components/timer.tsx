@@ -50,7 +50,7 @@ export function Timer({ participants }: Props) {
     if (running) {
       tick.current = setInterval(() => {
         setTimer((state) => state - 1);
-      }, 10);
+      }, 1000);
     }
 
     return () => clearInterval(tick.current);
