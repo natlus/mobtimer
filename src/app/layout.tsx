@@ -3,6 +3,7 @@ import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import { PreviousMobs } from "./previous-mobs";
 import QueryProvider from "./provider";
+import { NotificationsProvider } from "./notifications-provider";
 
 const font = GeistSans;
 
@@ -19,13 +20,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <QueryProvider>
-          <div className="grid grid-cols-3 max-w-full pt-20 px-10 gap-10 justify-center">
-            <div className="pl-20 pt-20 flex">
-              <PreviousMobs />
+          <NotificationsProvider>
+            <div className="grid grid-cols-3 max-w-full pt-20 px-10 gap-10 justify-center">
+              <div className="pl-20 pt-20 flex">
+                <PreviousMobs />
+              </div>
+              <div className="p-5 flex justify-center">{children}</div>
+              <div></div>
             </div>
-            <div className="p-5 flex justify-center">{children}</div>
-            <div></div>
-          </div>
+          </NotificationsProvider>
         </QueryProvider>
       </body>
     </html>

@@ -25,8 +25,6 @@ export function PreviousMobs() {
     },
   });
 
-  console.log(data);
-
   return (
     <div>
       <div className="flex flex-col gap-4">

@@ -61,11 +61,13 @@ export function Timer({ participants }: Props) {
     if (timer <= -0.9) {
       setRunning(false);
       setTimer(presetTime * 60);
-      stepBetweenParticipants(1);
+      setActiveParticipant(getNextParticipant(1));
+
+      new Notification(`Time's up! ${getNextParticipant(1)} is up next!`);
     }
   }, [timer]);
 
-  function stepBetweenParticipants(step: 1 | -1) {
+  function getNextParticipant(step: 1 | -1) {
     const currentIndex = participants.findIndex((p) => p === activeParticipant);
     const maxIndex = participants.length - 1;
 
@@ -78,7 +80,7 @@ export function Timer({ participants }: Props) {
 
     const index = getIndex(currentIndex);
 
-    setActiveParticipant(participants[index]);
+    return participants[index];
   }
 
   const iconProps = {
@@ -106,13 +108,13 @@ export function Timer({ participants }: Props) {
         </button>
 
         <button
-          onClick={() => stepBetweenParticipants(-1)}
+          onClick={() => setActiveParticipant(getNextParticipant(-1))}
           className={itemStyle}
         >
           <ChevronLeft />
         </button>
         <button
-          onClick={() => stepBetweenParticipants(1)}
+          onClick={() => setActiveParticipant(getNextParticipant(1))}
           className={itemStyle}
         >
           <ChevronRight />
