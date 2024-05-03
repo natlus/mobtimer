@@ -7,6 +7,16 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 const idStore = new Set<string>();
 
 export function StorageProvider({ children }: { children: React.ReactNode }) {
+  if (typeof window === "undefined") return <>{children}</>;
+
+  return <LocalStorageProvider>{children}</LocalStorageProvider>;
+}
+
+export function LocalStorageProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [ids, saveIds] = useLocalStorage<string | null>("mobtimer:ids", null);
   const { id } = useParams();
 

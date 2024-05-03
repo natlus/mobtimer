@@ -5,6 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Rows4, UsersRound } from "lucide-react";
 import Link from "next/link";
 
+export function Sidebar() {
+  if (typeof window === "undefined") return null;
+
+  return <PreviousMobs />;
+}
+
 type RecentMobsData = {
   participants: string[];
   id: string;
