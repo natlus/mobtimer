@@ -90,15 +90,21 @@ export function Timer({ participants }: Props) {
   };
 
   const itemStyle =
-    "bg-slate-950 p-4 text-white hover:bg-slate-900 flex items-center justify-center";
+    "bg-zinc-900 dark:bg-zinc-700 p-4 text-white dark:hover:bg-zinc-600 hover:bg-zinc-800 flex items-center justify-center";
 
   if (!participants.length) return null;
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
-      <div className="grid grid-cols-[100px_1fr_1fr_1fr_1fr] [&>*:first-child]:rounded-l [&>*:last-child]:rounded-r w-full">
+      <div
+        className={`grid grid-cols-[100px_1fr_1fr_1fr_1fr] ${
+          showTimeOptions
+            ? "[&>*:first-child]:rounded-tl [&>*:last-child]:rounded-tr"  
+            : "[&>*:first-child]:rounded-l [&>*:last-child]:rounded-r"
+        }  w-full`}
+      >
         <div
-          className={`${itemStyle} flex items-center text-xl hover:bg-slate-950 text-left justify-start`}
+          className={`${itemStyle} flex items-center text-xl hover:bg-zinc-900 dark:hover:bg-zinc-600 text-left justify-start`}
         >
           {readableTime(timer)}
         </div>
@@ -129,9 +135,9 @@ export function Timer({ participants }: Props) {
         </button>
       </div>
       {showTimeOptions && (
-        <div className="grid grid-cols-5 [&>*:first-child]:rounded-l [&>*:last-child]:rounded-r self-start w-full border-t-slate-900 border-t-2">
+        <div className="grid grid-cols-5 [&>*:first-child]:rounded-bl [&>*:last-child]:rounded-br self-start w-full">
           {presetTimes.map((time) => {
-            const active = time === presetTime ? "bg-slate-900" : "";
+            const active = time === presetTime ? "bg-zinc-900" : "";
 
             return (
               <button

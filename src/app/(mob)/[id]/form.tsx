@@ -90,9 +90,11 @@ function Entry({
   const [timer] = useAtom(timerAtom);
 
   const isNew = participant === PLACEHOLDER;
-  const faded = !isNew ? "opacity-75" : "opacity-100";
+  const faded = !isNew ? "opacity-100" : "opacity-100";
   const active =
-    activeParticipant === participant ? "opacity-100 bg-slate-800" : "";
+    activeParticipant === participant
+      ? "bg-zinc-600 dark:bg-zinc-900"
+      : "dark:bg-zinc-700 bg-zinc-900 ";
 
   const preventFocus = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -112,7 +114,7 @@ function Entry({
         onBlur={() => setFocused(false)}
         placeholder="Add participant"
         defaultValue={isNew ? undefined : participant}
-        className={`${faded} ${active} focus-visible:opacity-100`}
+        className={`${faded} ${active} focus-visible:opacity-100 text-md text-white`}
         data-1p-ignore
         autoFocus={autoFocus}
       />
@@ -122,7 +124,7 @@ function Entry({
           name="action"
           value="delete"
           type="submit"
-          className={`${
+          className={`text-white ${
             focused
               ? "absolute right-[40px]"
               : "absolute right-[8px] opacity-50"
@@ -139,7 +141,7 @@ function Entry({
           value="add"
           disabled={!focused}
           onMouseDown={preventFocus}
-          className="absolute right-[8px]"
+          className="absolute right-[8px] text-white"
         >
           <CirclePlus />
         </button>
@@ -149,7 +151,7 @@ function Entry({
           name="action"
           value="edit"
           type="submit"
-          className="absolute right-[8px]"
+          className="absolute right-[8px] text-white"
           onMouseDown={preventFocus}
         >
           <CircleCheck />
