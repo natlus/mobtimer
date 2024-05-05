@@ -40,7 +40,7 @@ export function Timer({ participants }: Props) {
 
   useEffect(() => {
     setActiveParticipant(participants[0]);
-  }, []);
+  }, [participants]);
 
   useEffect(() => {
     setRunning(false);
@@ -99,7 +99,7 @@ export function Timer({ participants }: Props) {
       <div
         className={`grid grid-cols-[100px_1fr_1fr_1fr_1fr] ${
           showTimeOptions
-            ? "[&>*:first-child]:rounded-tl [&>*:last-child]:rounded-tr"  
+            ? "[&>*:first-child]:rounded-tl [&>*:last-child]:rounded-tr"
             : "[&>*:first-child]:rounded-l [&>*:last-child]:rounded-r"
         }  w-full`}
       >
