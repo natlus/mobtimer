@@ -90,7 +90,7 @@ export function Timer({ participants }: Props) {
   };
 
   const itemStyle =
-    "bg-zinc-900 dark:bg-zinc-700 p-4 text-white dark:hover:bg-zinc-600 hover:bg-zinc-800 flex items-center justify-center";
+    "bg-zinc-900 dark:bg-zinc-900 p-4 text-white dark:hover:bg-zinc-800 hover:bg-zinc-800 flex items-center justify-center";
 
   if (!participants.length) return null;
 
@@ -117,13 +117,15 @@ export function Timer({ participants }: Props) {
 
         <button
           onClick={() => setActiveParticipant(getNextParticipant(-1))}
-          className={itemStyle}
+          className={`${itemStyle} disabled:text-zinc-600 disabled:pointer-events-none`}
+          disabled={participants.length < 2}
         >
           <ChevronLeft />
         </button>
         <button
           onClick={() => setActiveParticipant(getNextParticipant(1))}
-          className={itemStyle}
+          className={`${itemStyle} disabled:text-zinc-600 disabled:pointer-events-none`}
+          disabled={participants.length < 2}
         >
           <ChevronRight />
         </button>

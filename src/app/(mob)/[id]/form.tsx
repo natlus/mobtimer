@@ -93,8 +93,8 @@ function Entry({
   const faded = !isNew ? "opacity-100" : "opacity-100";
   const active =
     activeParticipant === participant
-      ? "bg-zinc-600 dark:bg-zinc-900"
-      : "dark:bg-zinc-700 bg-zinc-900 ";
+      ? "bg-zinc-600 dark:bg-zinc-700"
+      : "bg-zinc-900 dark:bg-zinc-900"; 
 
   const preventFocus = (e: React.MouseEvent) => {
     e.preventDefault();
