@@ -104,7 +104,7 @@ export function Timer({ participants }: Props) {
         }  w-full`}
       >
         <div
-          className={`${itemStyle} flex items-center text-xl hover:bg-zinc-900 dark:hover:bg-zinc-600 text-left justify-start`}
+          className={`${itemStyle} flex items-center text-xl text-left justify-start pointer-events-none`}
         >
           {readableTime(timer)}
         </div>
