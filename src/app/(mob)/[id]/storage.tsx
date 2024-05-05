@@ -2,12 +2,13 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useLocalStorage } from "@uidotdev/usehooks";
+import { useIsClient, useLocalStorage } from "@uidotdev/usehooks";
 
 const idStore = new Set<string>();
 
 export function StorageProvider({ children }: { children: React.ReactNode }) {
-  if (typeof window === "undefined") return <>{children}</>;
+  const isClient = useIsClient();
+  if (isClient) return <>{children}</>;
 
   return <LocalStorageProvider>{children}</LocalStorageProvider>;
 }

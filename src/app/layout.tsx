@@ -4,6 +4,7 @@ import "./globals.css";
 import QueryProvider from "./provider";
 import { NotificationsProvider } from "./notifications-provider";
 import { Sidebar } from "./previous-mobs";
+import { Suspense } from "react";
 
 const font = GeistSans;
 
@@ -23,7 +24,9 @@ export default function RootLayout({
           <NotificationsProvider>
             <div className="grid grid-cols-3 max-w-full pt-20 px-10 gap-10 justify-center">
               <div className="pl-20 pt-20 flex">
-                <Sidebar />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Sidebar />
+                </Suspense>
               </div>
               <div className="p-5 flex justify-center">{children}</div>
               <div></div>

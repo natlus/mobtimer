@@ -1,12 +1,13 @@
 "use client";
 
-import { useLocalStorage } from "@uidotdev/usehooks";
+import { useIsClient, useLocalStorage } from "@uidotdev/usehooks";
 import { useQuery } from "@tanstack/react-query";
 import { Rows4, UsersRound } from "lucide-react";
 import Link from "next/link";
 
 export function Sidebar() {
-  if (typeof window === "undefined") return null;
+  const isClient = useIsClient();
+  if (!isClient) return null;
 
   return <PreviousMobs />;
 }
