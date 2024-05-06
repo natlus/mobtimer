@@ -30,7 +30,7 @@ export default async function MobPage({ params }: { params: { id: string } }) {
             : "Type a name to get started"}
         </div>
 
-        <div className="flex flex-col gap-4 bg-zinc-900 rounded-3xl p-8 pt-12">
+        <div className="flex flex-col gap-8 bg-zinc-900 rounded-3xl p-8 pt-12">
           <Form
             participants={participants}
             action={async (
