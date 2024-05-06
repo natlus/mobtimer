@@ -24,14 +24,14 @@ export default async function MobPage({ params }: { params: { id: string } }) {
         </Link>
       </header>
 
-      <main className="grid grid-rows-[50px_auto] grid-cols-1 justify-center items-center gap-5 max-w-[360px] w-full">
-        <div className="text-center text-xl">
+      <main className="grid grid-rows-[50px_auto] grid-cols-1 justify-center items-center gap-2 max-w-[425px] w-full ">
+        <div className="text-center text-2xl">
           {participants.length
             ? participants.join(", ")
             : "Type a name to get started"}
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 bg-zinc-900 rounded-3xl p-8 pt-12">
           <Form
             participants={participants}
             action={async (

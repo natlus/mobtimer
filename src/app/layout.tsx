@@ -22,11 +22,9 @@ export default function RootLayout({
       <body className={font.className}>
         <QueryProvider>
           <NotificationsProvider>
-            <div className="grid grid-cols-3 max-w-full pt-20 px-10 gap-10 justify-center">
-              <div className="pl-20 pt-20 flex">
-                <Suspense fallback={<div>Loading...</div>}>
-                  <Sidebar />
-                </Suspense>
+            <div className="grid grid-cols-3 max-w-full pt-20 px-4 justify-center">
+              <div className="pl-8 pt-20 flex justify-end">
+                <Sidebar />
               </div>
               <div className="p-5 flex justify-center">{children}</div>
               <div></div>

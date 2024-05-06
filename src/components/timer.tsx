@@ -90,7 +90,7 @@ export function Timer({ participants }: Props) {
   };
 
   const itemStyle =
-    "bg-zinc-900 dark:bg-zinc-900 p-4 text-white dark:hover:bg-zinc-800 hover:bg-zinc-800 flex items-center justify-center";
+    "bg-zinc-900 dark:bg-zinc-800 p-4 text-white dark:hover:bg-zinc-700 hover:bg-zinc-800 flex items-center justify-center";
 
   if (!participants.length) return null;
 
@@ -99,8 +99,8 @@ export function Timer({ participants }: Props) {
       <div
         className={`grid grid-cols-[100px_1fr_1fr_1fr_1fr] ${
           showTimeOptions
-            ? "[&>*:first-child]:rounded-tl [&>*:last-child]:rounded-tr"
-            : "[&>*:first-child]:rounded-l [&>*:last-child]:rounded-r"
+            ? "[&>*:first-child]:rounded-tl-3xl [&>*:last-child]:rounded-tr-3xl"
+            : "[&>*:first-child]:rounded-l-3xl [&>*:last-child]:rounded-r-3xl"
         }  w-full`}
       >
         <div
@@ -137,7 +137,7 @@ export function Timer({ participants }: Props) {
         </button>
       </div>
       {showTimeOptions && (
-        <div className="grid grid-cols-5 [&>*:first-child]:rounded-bl [&>*:last-child]:rounded-br self-start w-full">
+        <div className="grid grid-cols-5 [&>*:first-child]:rounded-bl-3xl [&>*:last-child]:rounded-br-3xl self-start w-full">
           {presetTimes.map((time) => {
             const active = time === presetTime ? "bg-zinc-900" : "";
 

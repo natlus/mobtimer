@@ -6,6 +6,7 @@ import {
   timerAtom,
 } from "@/components/timer";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/utils";
 import { useAtom } from "jotai";
 import { Trash2 as Trash, CirclePlus, CircleCheck } from "lucide-react";
 
@@ -93,13 +94,8 @@ function Entry({
   const faded = !isNew ? "opacity-100" : "opacity-100";
   const active =
     activeParticipant === participant
-      ? "bg-zinc-600 dark:bg-zinc-700"
-      : "bg-zinc-900 dark:bg-zinc-900"; 
-
-  const preventFocus = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
+      ? "bg-zinc-600 dark:bg-zinc-600"
+      : "bg-zinc-900 dark:bg-zinc-900";
 
   return (
     <>
@@ -119,44 +115,54 @@ function Entry({
         autoFocus={autoFocus}
       />
 
-      {!isNew && (
-        <button
-          name="action"
-          value="delete"
-          type="submit"
-          className={`text-white ${
-            focused
-              ? "absolute right-[40px]"
-              : "absolute right-[8px] opacity-50"
-          } hover:opacity-100`}
-          onMouseDown={preventFocus}
-        >
-          <Trash />
-        </button>
-      )}
-      {isNew && focused && (
-        <button
-          name="action"
-          type="submit"
-          value="add"
-          disabled={!focused}
-          onMouseDown={preventFocus}
-          className="absolute right-[8px] text-white"
-        >
-          <CirclePlus />
-        </button>
-      )}
-      {!isNew && focused && (
-        <button
-          name="action"
-          value="edit"
-          type="submit"
-          className="absolute right-[8px] text-white"
-          onMouseDown={preventFocus}
-        >
-          <CircleCheck />
-        </button>
-      )}
+      <div
+        className={`absolute right-[8px] flex ${
+          focused ? "[&>button]:opacity-100" : "[&>button]:opacity-60"
+        } [&>button]:hover:opacity-100`}
+      >
+        {!isNew && (
+          <InputButton value="delete" className="mr-1">
+            <Trash size={20} />
+          </InputButton>
+        )}
+        {isNew && focused && (
+          <InputButton value="add">
+            <CirclePlus />
+          </InputButton>
+        )}
+        {!isNew && focused && (
+          <InputButton value="edit">
+            <CircleCheck />
+          </InputButton>
+        )}
+      </div>
     </>
+  );
+}
+
+function InputButton({
+  children,
+  value,
+  className,
+}: {
+  children: React.ReactNode;
+  value: "add" | "edit" | "delete";
+  className?: string;
+}) {
+  const preventFocus = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  return (
+    <button
+      name="action"
+      value={value}
+      type="submit"
+      onMouseDown={preventFocus}
+      className={cn(className, "text-white")}
+    >
+      {children}
+    </button>
   );
 }
