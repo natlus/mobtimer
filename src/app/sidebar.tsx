@@ -47,28 +47,32 @@ export function PreviousMobs() {
         </div>
 
         <div className="flex flex-col gap-6 px-6">
-          {ids?.split(",").map((id) => (
-            <div key={id} className="flex flex-col gap-2">
-              <Link
-                href={id}
-                className="hover:underline flex items-center gap-1"
-              >
-                <Link2 size={20} /> {id}
-              </Link>
-              <div className="text-sm flex gap-2 px-2 opacity-75 items-center">
-                <UsersRound size={16} />
-                {isLoading ? (
-                  "Loading..."
-                ) : (
-                  <span className="truncate max-w-[150px]">
-                    {data
-                      ?.find((mob) => mob.id === id)
-                      ?.participants.join(", ")}
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
+          {ids?.split(",").map(
+            (id) =>
+              data?.map((item) => item.id).includes(id) && (
+                <div key={id} className="flex flex-col gap-2">
+                  <Link
+                    href={id}
+                    className="hover:underline flex items-center gap-1"
+                  >
+                    <Link2 size={20} /> {id}
+                  </Link>
+
+                  <div className="text-sm flex gap-2 px-2 opacity-75 items-center">
+                    <UsersRound size={16} />
+                    {isLoading ? (
+                      "Loading..."
+                    ) : (
+                      <span className="truncate max-w-[150px]">
+                        {data
+                          ?.find((mob) => mob.id === id)
+                          ?.participants.join(", ")}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )
+          )}
         </div>
       </div>
     </div>
