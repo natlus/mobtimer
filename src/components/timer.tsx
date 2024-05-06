@@ -9,11 +9,15 @@ import {
   TimerIcon,
 } from "lucide-react";
 import { atom, useAtom } from "jotai";
+import { Select, SelectItem } from "./ui/select";
+import { SelectContent, SelectTrigger } from "@radix-ui/react-select";
 
 const TIME = 15;
 
 type Props = {
   participants: string[];
+  presetTime: number;
+  action: (time: number) => void;
 };
 
 type Timer = {
@@ -25,18 +29,16 @@ const presetTimes = [10, 15, 20, 30, 60] as const;
 const defaultTime = 15;
 
 export const activeParticipantAtom = atom<string | null>(null);
-export const timerAtom = atom(defaultTime * 60);
+export const timerAtom = atom(0);
 
-export function Timer({ participants }: Props) {
+export function Timer({ participants, presetTime, action }: Props) {
   const [timer, setTimer] = useAtom(timerAtom);
   const [activeParticipant, setActiveParticipant] = useAtom(
     activeParticipantAtom
   );
   const [running, setRunning] = useState(false);
-  const [showTimeOptions, setShowTimeOptions] = useState(false);
-  const [presetTime, setPresetTime] =
-    useState<(typeof presetTimes)[number]>(defaultTime);
   const tick = useRef<any>();
+  const [initial, setInitial] = useState(true);
 
   useEffect(() => {
     setActiveParticipant(participants[0]);
@@ -97,19 +99,18 @@ export function Timer({ participants }: Props) {
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <div
-        className={`grid grid-cols-[100px_1fr_1fr_1fr_1fr] ${
-          showTimeOptions
-            ? "[&>*:first-child]:rounded-tl-3xl [&>*:last-child]:rounded-tr-3xl"
-            : "[&>*:first-child]:rounded-l-3xl [&>*:last-child]:rounded-r-3xl"
-        }  w-full`}
+        className={`grid grid-cols-[100px_1fr_1fr_1fr_1fr] [&>*:first-child]:rounded-l-3xl [&>*:last-child]:rounded-r-3xl w-full`}
       >
         <div
           className={`${itemStyle} flex items-center text-xl text-left justify-start pointer-events-none`}
         >
-          {readableTime(timer)}
+          {readableTime(initial ? presetTime * 60 : timer)}
         </div>
         <button
-          onClick={() => setRunning((state) => !state)}
+          onClick={() => {
+            if (initial) setInitial(false);
+            setRunning((state) => !state);
+          }}
           className={itemStyle}
         >
           {running ? <Pause {...iconProps} /> : <Play {...iconProps} />}
@@ -129,35 +130,41 @@ export function Timer({ participants }: Props) {
         >
           <ChevronRight />
         </button>
-        <button
-          className={itemStyle}
-          onClick={() => setShowTimeOptions(!showTimeOptions)}
-        >
-          <TimerIcon />
-        </button>
-      </div>
-      {showTimeOptions && (
-        <div className="grid grid-cols-5 [&>*:first-child]:rounded-bl-3xl [&>*:last-child]:rounded-br-3xl self-start w-full">
-          {presetTimes.map((time) => {
-            const active = time === presetTime ? "bg-zinc-900" : "";
 
-            return (
-              <button
-                key={time}
-                className={`${itemStyle} py-6 ${active}`}
-                onClick={() => setPresetTime(time)}
-              >
-                {time}m
-              </button>
-            );
-          })}
-        </div>
-      )}
+        <Select onValueChange={(value) => action(parseInt(value, 10))}>
+          <SelectTrigger
+            asChild
+            className="rounded-r-3xl data-[state=open]:rounded-tr-none"
+          >
+            <button className={`${itemStyle}`}>
+              <TimerIcon />
+            </button>
+          </SelectTrigger>
+          <SelectContent position="popper" asChild align="end" side="top">
+            <div className="rounded-t-3xl bg-zinc-800 [&>*:first-child]:rounded-t-3xl [&>*:last-child]:rounded-none">
+              {presetTimes.map((time) => {
+                const active = time === presetTime ? "bg-zinc-900" : "";
+
+                return (
+                  <SelectItem
+                    key={time}
+                    value={`${time}` as const}
+                    className="p-6 hover:bg-zinc-700 cursor-pointer"
+                  >
+                    {time}m
+                  </SelectItem>
+                );
+              })}
+            </div>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 }
 
 export function readableTime(s: number) {
+  if (s <= 0) return "--:--";
   const mins = Math.floor(s / 60);
   const secs = s % 60;
   return `${mins || ""}:${secs < 10 ? "0" : ""}${secs}`;

@@ -4,6 +4,7 @@ import {
   addParticipant,
   editParticipant,
   deleteParticipant,
+  setTime,
 } from "@/server/queries";
 import Form from "./form";
 import { revalidatePath } from "next/cache";
@@ -13,7 +14,7 @@ import Link from "next/link";
 import { StorageProvider } from "./storage";
 
 export default async function MobPage({ params }: { params: { id: string } }) {
-  const { participants } = await getMob(params.id);
+  const { participants, time } = await getMob(params.id);
 
   return (
     <StorageProvider>
@@ -58,7 +59,15 @@ export default async function MobPage({ params }: { params: { id: string } }) {
             }}
           />
 
-          <Timer participants={participants} />
+          <Timer
+            participants={participants}
+            presetTime={time}
+            action={async (time: number) => {
+              "use server";
+              await setTime(params.id, time);
+              revalidatePath(`/${params.id}`);
+            }}
+          />
         </div>
       </main>
     </StorageProvider>

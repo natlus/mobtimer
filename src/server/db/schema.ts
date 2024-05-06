@@ -4,6 +4,7 @@
 import { sql } from "drizzle-orm";
 import {
   index,
+  integer,
   pgTableCreator,
   serial,
   timestamp,
@@ -27,6 +28,7 @@ export const mobs = createTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updatedAt"),
+    time: integer("time").default(15).notNull(),
   },
   (example) => ({
     nameIndex: index("name_idx").on(example.participants),

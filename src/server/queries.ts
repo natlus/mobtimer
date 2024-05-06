@@ -116,3 +116,12 @@ export async function deleteParticipant(id: string, participant: string) {
     })
     .where(eq(mobs.id, id));
 }
+
+export async function setTime(id: string, time: number) {
+  const mob = await db
+    .update(mobs)
+    .set({
+      time,
+    })
+    .where(eq(mobs.id, id));
+}
