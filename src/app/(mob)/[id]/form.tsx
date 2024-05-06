@@ -7,10 +7,20 @@ import {
 } from "@/components/timer";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/utils";
+import { useIsClient, useLocalStorage } from "@uidotdev/usehooks";
 import { useAtom } from "jotai";
 import { Trash2 as Trash, CirclePlus, CircleCheck } from "lucide-react";
 
-import { useOptimistic, useRef, useState } from "react";
+import {
+  RefObject,
+  forwardRef,
+  useEffect,
+  useOptimistic,
+  useRef,
+  useState,
+} from "react";
+
+const participantsSet = new Set<string>();
 
 type Action = (
   type: "add" | "delete" | "edit",
@@ -42,6 +52,9 @@ export default function Form({
         return state;
     }
   });
+
+  const isClient = useIsClient();
+
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleAction = (data: FormData, outdatedName?: string) => {
@@ -61,23 +74,72 @@ export default function Form({
       {optimistic?.map((participant) => (
         <form
           key={participant}
-          action={(formData) => handleAction(formData, participant)}
+          action={(formData) => {
+            handleAction(formData, participant);
+          }}
           className="flex gap-1 w-full items-center"
         >
           <Entry key={participant} participant={participant} />
         </form>
       ))}
 
-      <form
-        ref={formRef}
-        action={handleAction}
-        className="flex gap-1 w-full items-center"
-      >
-        <Entry participant={PLACEHOLDER} autoFocus />
-      </form>
+      {isClient ? (
+        <NewParticipantForm
+          ref={formRef}
+          participants={participants}
+          handleAction={handleAction}
+        />
+      ) : (
+        <form>
+          <Entry participant={PLACEHOLDER} autoFocus />
+        </form>
+      )}
     </div>
   );
 }
+
+const NewParticipantForm = forwardRef(function NewParticipantForm(
+  {
+    participants,
+    handleAction,
+  }: {
+    participants: string[];
+    handleAction: (data: FormData, outdatedName?: string) => void;
+  },
+  ref
+) {
+  const [recentParticipants, setRecentParticipants] = useLocalStorage<
+    string | null
+  >("mobtimer:recent-participants", null);
+
+  useEffect(() => {
+    if (!recentParticipants?.length) return;
+    recentParticipants
+      ?.split(",")
+      .forEach((participant) => participantsSet.add(participant));
+  }, []);
+
+  useEffect(() => {
+    setRecentParticipants(Array.from(participantsSet).join(","));
+  }, [participants]);
+
+  const handleSubmit = (e: any, type: "add" | "edit") => {
+    if (type === "add") {
+      participantsSet.add(e.target?.[0].value);
+    }
+  };
+
+  return (
+    <form
+      ref={ref as RefObject<HTMLFormElement>}
+      action={handleAction}
+      onSubmit={(e) => handleSubmit(e, "add")}
+      className="flex gap-1 w-full items-center"
+    >
+      <Entry participant={PLACEHOLDER} autoFocus />
+    </form>
+  );
+});
 
 function Entry({
   participant,

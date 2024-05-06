@@ -11,7 +11,6 @@ import { Timer } from "@/components/timer";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { StorageProvider } from "./storage";
-import { Suspense } from "react";
 
 export default async function MobPage({ params }: { params: { id: string } }) {
   const { participants } = await getMob(params.id);

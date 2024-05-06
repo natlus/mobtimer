@@ -8,18 +8,16 @@ const idStore = new Set<string>();
 
 export function StorageProvider({ children }: { children: React.ReactNode }) {
   const isClient = useIsClient();
-  if (isClient) return <>{children}</>;
+
+  if (!isClient) return children;
 
   return <LocalStorageProvider>{children}</LocalStorageProvider>;
 }
 
-export function LocalStorageProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function LocalStorageProvider({ children }: { children: React.ReactNode }) {
   const [ids, saveIds] = useLocalStorage<string | null>("mobtimer:ids", null);
-  const { id } = useParams();
+  const { id: slug } = useParams();
+  const id = typeof slug === "object" ? slug[0] : slug;
 
   useEffect(() => {
     if (ids) {

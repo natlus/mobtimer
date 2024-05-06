@@ -2,7 +2,7 @@
 
 import { useIsClient, useLocalStorage } from "@uidotdev/usehooks";
 import { useQuery } from "@tanstack/react-query";
-import { Rows4, UsersRound } from "lucide-react";
+import { Link2, Rows4, UsersRound } from "lucide-react";
 import Link from "next/link";
 
 export function Sidebar() {
@@ -21,6 +21,10 @@ type RecentMobsData = {
 
 export function PreviousMobs() {
   const [ids] = useLocalStorage<string | null>("mobtimer:ids", null);
+  const [recentParticipants] = useLocalStorage<string | null>(
+    "mobtimer:recent-participants",
+    null
+  );
 
   const { data, isLoading } = useQuery<RecentMobsData>({
     queryKey: ["recent-mobs"],
@@ -30,7 +34,10 @@ export function PreviousMobs() {
 
       return mobs;
     },
+    enabled: !!ids,
   });
+
+  if (!ids) return null;
 
   return (
     <div>
@@ -42,10 +49,13 @@ export function PreviousMobs() {
         <div className="flex flex-col gap-6 px-6">
           {ids?.split(",").map((id) => (
             <div key={id} className="flex flex-col gap-2">
-              <Link href={id} className="hover:underline">
-                {id}
+              <Link
+                href={id}
+                className="hover:underline flex items-center gap-1"
+              >
+                <Link2 size={20} /> {id}
               </Link>
-              <div className="text-sm flex gap-2 px-2 opacity-75">
+              <div className="text-sm flex gap-2 px-2 opacity-75 items-center">
                 <UsersRound size={16} />
                 {isLoading ? (
                   "Loading..."
