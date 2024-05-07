@@ -37,7 +37,7 @@ export function PreviousMobs() {
     enabled: !!ids,
   });
 
-  if (!ids) return null;
+  if (!ids || !ids.split(",").length) return null;
 
   return (
     <div>
